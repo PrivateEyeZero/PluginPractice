@@ -1,0 +1,8 @@
+name: Dice2
+version: '${project.version}'
+main: silverassist.dice2.Dice2
+api-version: 1.17
+
+commands:
+  dice:
+    usage: /dice
