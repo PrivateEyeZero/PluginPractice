@@ -20,12 +20,8 @@ public class Command implements CommandExecutor {
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         int rollMax = 6;  //目の最大値;
         if(args.length > 0 && args[0].matches("\\d+"))rollMax = Integer.parseInt(args[0]);
-        // ---------------    -----------------------------
-        // ┗引数が設定されているか ┗一つ目の引数が整数か
-        int roll = (int) (Math.random()*rollMax) + 1;
-        //               -----------------------
-        //               [0]以上[rollMax]未満の範囲で乱数を生成
+        int roll = Dice.spin(rollMax); //関数を使用して目を計算
         sender.sendMessage("出た目: "+roll);
-        return true;  //コマンドが終了したときはtrueを返す
+        return true;
     }
 }
