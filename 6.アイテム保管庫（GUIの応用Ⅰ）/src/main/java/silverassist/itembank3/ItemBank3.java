@@ -1,9 +1,9 @@
-package silverassist.itembank2;
+package silverassist.itembank3;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class ItemBank2 extends JavaPlugin {
+public final class ItemBank3 extends JavaPlugin {
     private static JavaPlugin plugin = null;
     private static FileConfiguration yml = null;
 
@@ -14,13 +14,8 @@ public final class ItemBank2 extends JavaPlugin {
         this.saveDefaultConfig();
         yml = plugin.getConfig();
 
-        Bank bank = new Bank();
-        new Command(bank);
-
-
-
+        new Command();
         // Plugin startup logic
-
     }
 
     public static JavaPlugin getInstance(){return plugin;}
