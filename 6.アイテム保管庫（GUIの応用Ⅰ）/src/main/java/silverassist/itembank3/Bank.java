@@ -32,8 +32,8 @@ public class Bank implements Listener {
     public void open(Player p){
         Inventory inv = Bukkit.createInventory(p,GUI_SIZE,"§d§lアイテムバンク");
 
-        if(yml.get(YML_KEY)!=null){
-            ConfigurationSection cs = yml.getConfigurationSection(YML_KEY);
+        if(yml.get("bankData")!=null){
+            ConfigurationSection cs = yml.getConfigurationSection("bankData");
             cs.getKeys(false).forEach(key->inv.setItem(Integer.parseInt(key),cs.getItemStack(key)));
         }
         opener.add(p);
@@ -50,8 +50,8 @@ public class Bank implements Listener {
         Map<Integer,ItemStack> items = new HashMap<>();
         for(int i = 0;i<GUI_SIZE;i++){
             ItemStack item = inv.getItem(i);
-            if(item==null)yml.set(YML_KEY+"."+i,null);
-            else yml.set(YML_KEY+"."+i,item);
+            if(item==null)yml.set("bankData."+i,null);
+            else yml.set("bankData."+i,item);
         }
         plugin.saveConfig();
     }
