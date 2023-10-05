@@ -19,7 +19,7 @@ public class Command implements CommandExecutor {
         if(!(sender instanceof Player))return true;
         Player p = (Player) sender;
         if(!p.isOp())return true;
-        new Bank().open(p);
+        new Bank(p).open();
         return true;
     }
 }
