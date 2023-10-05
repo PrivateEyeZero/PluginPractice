@@ -8,9 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Command implements CommandExecutor {
     private final JavaPlugin plugin;
-    private final Bank bank;
-    public Command(Bank bank){
-        this.bank = bank;
+    public Command(){
         plugin = ItemBank2.getInstance();
         PluginCommand pluginCommand = plugin.getCommand("itembank");
         pluginCommand.setExecutor(this);
@@ -21,7 +19,7 @@ public class Command implements CommandExecutor {
         if(!(sender instanceof Player))return true;
         Player p = (Player) sender;
         if(!p.isOp())return true;
-        bank.open(p);
+        new Bank().open(p);
         return true;
     }
 }

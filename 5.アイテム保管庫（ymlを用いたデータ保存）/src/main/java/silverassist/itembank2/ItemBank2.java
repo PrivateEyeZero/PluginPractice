@@ -14,8 +14,7 @@ public final class ItemBank2 extends JavaPlugin {
         this.saveDefaultConfig();
         yml = plugin.getConfig();
 
-        Bank bank = new Bank();
-        new Command(bank);
+        new Command();
 
 
 
