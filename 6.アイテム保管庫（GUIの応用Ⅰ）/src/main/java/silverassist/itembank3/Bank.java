@@ -44,10 +44,6 @@ public class Bank implements Listener {
         for(int i = 0; i< BODY_SIZE; i++)inv.setItem(i,null);
         if(yml.get(YML_KEY)!=null){
             ConfigurationSection cs = yml.getConfigurationSection(YML_KEY);
-            System.out.println(cs.getKeys(false)  //keyを全取得
-                    .stream()
-                    .map(Integer::parseInt)  //keyを全て数字(int)に
-                    .filter(e->(e> BODY_SIZE *page && e< BODY_SIZE *(page+1))).collect(Collectors.toList()) );
             cs.getKeys(false)  //keyを全取得
                     .stream()
                     .map(Integer::parseInt)  //keyを全て数字(int)に
