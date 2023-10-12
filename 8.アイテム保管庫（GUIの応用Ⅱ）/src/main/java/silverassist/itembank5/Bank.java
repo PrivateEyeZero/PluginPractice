@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Bank implements Listener {
+public class Bank{
     private static final int BODY_SIZE = 45;  //9の倍数
     private static final String YML_KEY = "bankData";
     private static final ItemStack BG_NORMAL = Util.createItem(Material.LIGHT_BLUE_STAINED_GLASS_PANE,"§r");
@@ -58,7 +58,8 @@ public class Bank implements Listener {
 
         for(int i = BODY_SIZE; i< BODY_SIZE + 9; i++)inv.setItem(i,BG_NORMAL);
         if(page>0)inv.setItem(BODY_SIZE,BG_BACK);
-        int lastKey = ITEMS.keySet().stream().sorted().collect(Collectors.toCollection (LinkedList::new)).getLast();
+        LinkedList<Integer> keyList = ITEMS.keySet().stream().sorted().collect(Collectors.toCollection (LinkedList::new));
+        int lastKey = keyList.size() == 0 ? 0 : keyList.getLast();
         if(page<lastKey/BODY_SIZE || isEdit)inv.setItem(BODY_SIZE+8,BG_NEXT);
 
 
@@ -72,7 +73,6 @@ public class Bank implements Listener {
         Bukkit.getScheduler().runTaskAsynchronously(plugin,()->{
             for(int i = BODY_SIZE *page; i<(BODY_SIZE *(page+1)); i++){
                 ItemStack item = inv.getItem(i% BODY_SIZE);
-                //System.err.println(i+" - "+item);
                 if(item==null){ YML.set(YML_KEY+"."+i,null);ITEMS.remove(i);}
                 else{ YML.set(YML_KEY+"."+i,item);ITEMS.put(i,item);}
             }
@@ -99,6 +99,8 @@ public class Bank implements Listener {
             isRunningSetup = false;
         });
     }
+
+
 
     private class EditEvent implements Listener{
         @EventHandler
@@ -129,6 +131,13 @@ public class Bank implements Listener {
 
     private class UtilizeEvent implements Listener{
         @EventHandler
+        public void onClose(InventoryCloseEvent e){
+            Player p= (Player) e.getPlayer();
+            if(!Bank.this.p.equals(p))return;
+            if(!isUpdate) HandlerList.unregisterAll(this);  //更新処理によるcloseでなｋればイベントの削除
+        }
+
+        @EventHandler
         public void onClick(InventoryClickEvent e){
             if(
                     !e.getWhoClicked().equals(p)  //違う人による操作の場合
@@ -141,8 +150,8 @@ public class Bank implements Listener {
             if(slot < BODY_SIZE)p.getInventory().addItem(new ItemStack(e.getCurrentItem()){{setAmount(getMaxStackSize());}});
             else{
                 switch (slot){
-                    case BODY_SIZE ->{if(e.getCurrentItem().equals(BG_BACK)){save(e.getClickedInventory()); page--;}}
-                    case BODY_SIZE + 8 ->{if(e.getCurrentItem().equals(BG_BACK)){save(e.getClickedInventory());page++;}}
+                    case BODY_SIZE ->{if(e.getCurrentItem().equals(BG_BACK))page--;}
+                    case BODY_SIZE + 8 ->{if(e.getCurrentItem().equals(BG_NEXT))page++;}
                     default ->{return;}
                 }
                 open();
