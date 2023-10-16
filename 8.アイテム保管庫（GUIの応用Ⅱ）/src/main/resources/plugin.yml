@@ -1,0 +1,8 @@
+name: ItemBank5
+version: '${project.version}'
+main: silverassist.itembank5.ItemBank5
+api-version: 1.17
+
+commands:
+  itembank:
+    usage: /itembank
